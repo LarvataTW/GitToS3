@@ -39,6 +39,13 @@ def find_version(bucket)
     return object.content.strip
 end
 
+#部署完成後，把此次的版本給上傳
+def update_version(bucket,hash)
+    object = bucket.objects.build("version.s3")
+    object.content= hash
+    object.save
+end
+
 config = JSON.load(open(options[:config]))
 service = S3::Service.new(:access_key_id => config["aws"]["accessKeyID"], :secret_access_key => config["aws"]["accesskey"])
 s3bucket=service.buckets.find(config["aws"]["bucket"])
@@ -77,3 +84,9 @@ else
     end
 end
 
+
+cmd = "cd #{git_repo}  && git rev-parse HEAD"
+deployed_commit = `#{cmd}`
+deployed_commit.strip!
+p  "commit: #{deployed_commit} deployed"
+update_version(s3bucket,deployed_commit)  unless options[:dryrun]
