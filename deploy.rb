@@ -81,6 +81,11 @@ else
                 object.destroy
             end
         end
+        else 
+        p  "unknow action "
+        exit
+        
+        end
     end
 end
 
