@@ -69,7 +69,7 @@ else
             else
                 print  "upload "+file +"\n"
                 new_object = s3bucket.objects.build(file)
-                new_object.content = open(repo_dir+"/"+file)
+                new_object.content = open(git_repo+"/"+file)
                 new_object.save
             end
         elsif action=='D'
