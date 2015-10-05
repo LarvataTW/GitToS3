@@ -80,7 +80,6 @@ else
                 object=bucket.objects.find(file)
                 object.destroy
             end
-        end
         else 
         p  "unknow action "
         exit
