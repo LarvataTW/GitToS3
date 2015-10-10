@@ -3,6 +3,17 @@ GitToS3
 
 deploy file to s3. 
 
+Notice:
+============
+
+if filename contains utf-8 characters, please add  
+
+quotepath=false  
+
+to your  project/.git/config    
+
+in the [core]  section
+
 
 Requirement:
 ============

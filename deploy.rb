@@ -2,6 +2,7 @@
 require 'optparse'
 require 'json'
 require 's3'
+require 'uri'
 
 options = {}
 OptionParser.new do |opts|
@@ -58,6 +59,7 @@ if deployed_commit== ""
 else
     #進行部份上傳
     cmd = "cd #{git_repo}  &&  git diff --name-status   #{deployed_commit}  #{target_commit}"
+    p cmd
     output = ` cd #{git_repo}  &&  git diff --name-status   #{deployed_commit}  #{target_commit}    `
     output.each_line do |line|
         action,file = line.split(" ")
@@ -77,8 +79,12 @@ else
                 p "(dryrun) delete "+file
             else
                 print "delete "+file +"\n"
-                object=bucket.objects.find(file)
+                begin
+                object=s3bucket.objects.find(file)
                 object.destroy
+                rescue
+                    p "file is not exists"
+                end
             end
         else 
         p  "unknow action "
